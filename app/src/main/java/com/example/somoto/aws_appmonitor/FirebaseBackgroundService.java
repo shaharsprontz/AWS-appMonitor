@@ -40,7 +40,7 @@ public class FirebaseBackgroundService extends Service {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String text = dataSnapshot.getValue(String.class);
-                Toast.makeText(FirebaseBackgroundService.this, "Database Updated", Toast.LENGTH_LONG).show();
+                //Toast.makeText(FirebaseBackgroundService.this, "Database Updated", Toast.LENGTH_LONG).show();
                 createNotification();
             }
 
@@ -57,12 +57,13 @@ public class FirebaseBackgroundService extends Service {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentTitle("AWS-Monitor")
+                        .setContentText("Changes in database");
         // Get instance of Vibrator from current Context
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 // Vibrate for 300 milliseconds
+        //v.vibrate(300);
         //star wars theme
         v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
     // Creates an explicit intent for an Activity in your app
