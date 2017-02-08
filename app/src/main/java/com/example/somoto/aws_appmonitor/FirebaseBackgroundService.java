@@ -10,13 +10,19 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Comment;
+
+import static android.content.ContentValues.TAG;
 
 
 public class FirebaseBackgroundService extends Service {
@@ -25,6 +31,8 @@ public class FirebaseBackgroundService extends Service {
 
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mConditionRef = mRootRef.child("apps").child("condition");
+
+
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -36,12 +44,56 @@ public class FirebaseBackgroundService extends Service {
         super.onCreate();
 
 
-        ValueEventListener handler = new ValueEventListener() {
+//        ValueEventListener handler = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String text = dataSnapshot.getValue(String.class);
+//                //Toast.makeText(FirebaseBackgroundService.this, "Database Updated", Toast.LENGTH_LONG).show();
+//                createNotification();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        };
+//
+//        mConditionRef.addValueEventListener(handler);
+
+
+        ChildEventListener ValueEventListener = new ChildEventListener() {
+
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String text = dataSnapshot.getValue(String.class);
-                //Toast.makeText(FirebaseBackgroundService.this, "Database Updated", Toast.LENGTH_LONG).show();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String newComment = dataSnapshot.getValue(String.class);
+                String commentKey = dataSnapshot.getKey();
+                Toast.makeText(FirebaseBackgroundService.this, "Child Added", Toast.LENGTH_LONG).show();
                 createNotification();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so displayed the changed comment.
+//                Comment newComment = dataSnapshot.getValue(Comment.class);
+//                String commentKey = dataSnapshot.getKey();
+//                Toast.makeText(FirebaseBackgroundService.this, "Child Updated", Toast.LENGTH_LONG).show();
+//                createNotification();
+
+                // ...
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -49,7 +101,7 @@ public class FirebaseBackgroundService extends Service {
 
             }
         };
-        mConditionRef.addValueEventListener(handler);
+        mConditionRef.addChildEventListener(ValueEventListener);
     }
 
     private void createNotification(){
@@ -66,6 +118,7 @@ public class FirebaseBackgroundService extends Service {
         //v.vibrate(300);
         //star wars theme
         v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
+
     // Creates an explicit intent for an Activity in your app
             Intent resultIntent = new Intent(this, MainActivity.class);
 
