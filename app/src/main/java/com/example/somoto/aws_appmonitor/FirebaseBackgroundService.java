@@ -68,27 +68,24 @@ public class FirebaseBackgroundService extends Service {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String newComment = dataSnapshot.getValue(String.class);
                 String commentKey = dataSnapshot.getKey();
-                Toast.makeText(FirebaseBackgroundService.this, "Child Added", Toast.LENGTH_LONG).show();
+                //Toast.makeText(FirebaseBackgroundService.this, "Child Added", Toast.LENGTH_LONG).show();
                 createNotification();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-//                Comment newComment = dataSnapshot.getValue(Comment.class);
-//                String commentKey = dataSnapshot.getKey();
-//                Toast.makeText(FirebaseBackgroundService.this, "Child Updated", Toast.LENGTH_LONG).show();
-//                createNotification();
-
-                // ...
+                String newComment = dataSnapshot.getValue(String.class);
+                String commentKey = dataSnapshot.getKey();
+                //Toast.makeText(FirebaseBackgroundService.this, "Child Changed", Toast.LENGTH_LONG).show();
+                createNotification();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                String newComment = dataSnapshot.getValue(String.class);
+                String commentKey = dataSnapshot.getKey();
+                //Toast.makeText(FirebaseBackgroundService.this, "Child Removed", Toast.LENGTH_LONG).show();
+                createNotification();
             }
 
             @Override
@@ -114,10 +111,10 @@ public class FirebaseBackgroundService extends Service {
         // Get instance of Vibrator from current Context
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-// Vibrate for 300 milliseconds
-        //v.vibrate(300);
+        //Vibrate for 300 milliseconds
+        v.vibrate(600);
         //star wars theme
-        v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
+        //v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
 
     // Creates an explicit intent for an Activity in your app
             Intent resultIntent = new Intent(this, MainActivity.class);

@@ -51,22 +51,15 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-//                //Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-//
-//                // A comment has changed, use the key to determine if we are displaying this
-//                // comment and if so displayed the changed comment.
-//                Comment newComment = dataSnapshot.getValue(Comment.class);
-//                String commentKey = dataSnapshot.getKey();
-//                Toast.makeText(FirebaseBackgroundService.this, "Child Updated", Toast.LENGTH_LONG).show();
-//                createNotification();
-
-                // ...
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                String newComment = dataSnapshot.getValue(String.class);
+                mConditionTextView.setText(mConditionTextView.getText()+"\n"+newComment);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                String newComment = dataSnapshot.getValue(String.class);
+                mConditionTextView.setText(mConditionTextView.getText()+"\n"+newComment);
             }
 
             @Override
