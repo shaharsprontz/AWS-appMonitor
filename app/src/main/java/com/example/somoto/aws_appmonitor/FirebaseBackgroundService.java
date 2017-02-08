@@ -44,24 +44,6 @@ public class FirebaseBackgroundService extends Service {
         super.onCreate();
 
 
-//        ValueEventListener handler = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String text = dataSnapshot.getValue(String.class);
-//                //Toast.makeText(FirebaseBackgroundService.this, "Database Updated", Toast.LENGTH_LONG).show();
-//                createNotification();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        };
-//
-//        mConditionRef.addValueEventListener(handler);
-
-
         ChildEventListener ValueEventListener = new ChildEventListener() {
 
             @Override
